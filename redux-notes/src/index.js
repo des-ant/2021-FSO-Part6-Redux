@@ -1,14 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
-
-const noteReducer = (state = [], action) => {
-  if (action.type === 'NEW_NOTE') {
-    return state.concat(action.data)
-  }
-
-  return state
-}
+import noteReducer from './reducers/noteReducer'
 
 const store = createStore(noteReducer)
 
@@ -33,28 +26,36 @@ store.dispatch({
 const generateId = () =>
   Math.floor(Math.random() * 1000000)
 
+const createNote = (content) => {
+  return {
+    type: 'NEW_NOTE',
+    data: {
+      content,
+      important: false,
+      id: generateId()
+    }
+  }
+}
+
+const toggleImportanceOf = (id) => {
+  return {
+    type: 'TOGGLE_IMPORTANCE',
+    data: { id }
+  }
+}
+
 const App = () => {
   const addNote = (event) => {
     event.preventDefault()
     const content = event.target.note.value
     event.target.note.value = ''
-    store.dispatch({
-      type: 'NEW_NOTE',
-      data: {
-        content,
-        important: false,
-        id: generateId()
-      }
-    })
+    store.dispatch(createNote(content))
   }
 
   const toggleImportance = (id) => {
-    store.dispatch({
-      type: 'TOGGLE_IMPORTANCE',
-      data: { id }
-    })
+    store.dispatch(toggleImportanceOf(id))
   }
-
+  
   return (
     <div>
       <form onSubmit={addNote}>
