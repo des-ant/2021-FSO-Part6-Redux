@@ -1,20 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createAnecdote } from './reducers/anecdoteReducer';
+import { createAnecdote, vote } from './reducers/anecdoteReducer';
 
 const App = () => {
   const anecdotes = useSelector(state => state);
   const dispatch = useDispatch();
   // Sort anecdotes by number of votes, descending
   const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes);
-
-  const vote = (id) => {
-    console.log('vote', id);
-    return {
-      type: 'VOTE',
-      data: { id }
-    };
-  };
 
   const addAnecdote = (event) => {
     event.preventDefault();
