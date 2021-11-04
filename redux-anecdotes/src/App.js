@@ -1,13 +1,17 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 const App = () => {
-  const anecdotes = useSelector(state => state)
-  const dispatch = useDispatch()
+  const anecdotes = useSelector(state => state);
+  const dispatch = useDispatch();
 
   const vote = (id) => {
-    console.log('vote', id)
-  }
+    console.log('vote', id);
+    return {
+      type: 'VOTE',
+      data: { id }
+    };
+  };
 
   return (
     <div>
@@ -19,7 +23,7 @@ const App = () => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => dispatch(vote(anecdote.id))}>vote</button>
           </div>
         </div>
       )}
@@ -29,7 +33,7 @@ const App = () => {
         <button>create</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
