@@ -1,3 +1,5 @@
+import noteService from '../services/notes'
+
 const noteReducer = (state = [], action) => {
   console.log('ACTION: ', action)
   switch(action.type) {
@@ -35,10 +37,13 @@ export const toggleImportanceOf = (id) => {
   }
 }
 
-export const initializeNotes = (notes) => {
-  return {
-    type: 'INIT_NOTES',
-    data: notes,
+export const initializeNotes = () => {
+  return async dispatch => {
+    const notes = await noteService.getAll()
+    dispatch({
+      type: 'INIT_NOTES',
+      data: notes,
+    })
   }
 }
 
