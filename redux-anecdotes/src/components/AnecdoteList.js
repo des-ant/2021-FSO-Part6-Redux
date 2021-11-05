@@ -19,6 +19,9 @@ const Anecdote = ({ anecdote, handleVote }) => {
 
 const AnecdoteList = () => {
   const anecdotes = useSelector(({ anecdotes, filter }) => {
+    // If text present in filter field,
+    // Use text to filter names (case-insensitive)
+    // Else if no text present, show all anecdotes
     if ( !filter || filter === '' ) {
       return anecdotes;
     }
