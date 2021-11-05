@@ -18,7 +18,12 @@ const Anecdote = ({ anecdote, handleVote }) => {
 };
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector(state => state.anecdotes);
+  const anecdotes = useSelector(({ anecdotes, filter }) => {
+    if ( !filter || filter === '' ) {
+      return anecdotes;
+    }
+    return anecdotes.filter(anecdote => anecdote.content.toUpperCase().includes(filter.toUpperCase()));
+  });
   const dispatch = useDispatch();
   // Sort anecdotes by number of votes, descending
   const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes);
