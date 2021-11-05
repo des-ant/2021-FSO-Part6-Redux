@@ -23,20 +23,21 @@ const AnecdoteList = () => {
   // Sort anecdotes by number of votes, descending
   const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes);
 
+  const voteAnecdote = (anecdote) => {
+    dispatch(vote(anecdote.id));
+    dispatch(notificationChange(`you voted '${anecdote.content}'`));
+    setTimeout(() => {
+      dispatch(notificationRemove());
+    }, 5000);
+  };
+
   return (
     <div>
       {sortedAnecdotes.map(anecdote =>
         <Anecdote
           key={anecdote.id}
           anecdote={anecdote}
-          handleVote={() => {
-              dispatch(vote(anecdote.id));
-              dispatch(notificationChange(`you voted '${anecdote.content}'`));
-              setTimeout(() => {
-                dispatch(notificationRemove());
-              }, 5000);
-            }
-          }
+          handleVote={() => voteAnecdote(anecdote)}
         />
       )}
     </div>
