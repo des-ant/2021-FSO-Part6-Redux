@@ -18,8 +18,14 @@ const update = async (id, newObject) => {
   return response.data;
 };
 
+const getOne = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}`);
+  return response.data;
+};
+
 export default {
   getAll,
   createNew,
   update,
+  getOne,
 };
