@@ -1,4 +1,7 @@
 const initialState = null;
+// Identifies timer created by the call to setTimeout()
+// Will be passed to clearTimeout() to cancel the timeout on new notification
+let timeoutID = null;
 
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -13,13 +16,17 @@ const notificationReducer = (state = initialState, action) => {
 
 export const setNotification = (message, durationInSeconds) => {
   return async dispatch => {
+    // Cancel removal of previous notification when a new notification is displayed
+    if (timeoutID !== null) {
+      clearTimeout(timeoutID);
+    }
     dispatch({
       type: 'SET_NOTIFICATION',
       data: {
         message,
       },
     });
-    setTimeout(() => {
+    timeoutID = setTimeout(() => {
       dispatch({
         type: 'CLEAR_NOTIFICATION',
         data: null,
